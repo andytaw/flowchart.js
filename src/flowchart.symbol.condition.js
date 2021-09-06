@@ -19,29 +19,26 @@ function Condition(chart, options) {
   this.yes_direction = this.yes_direction || 'bottom';
   this.no_direction = this.no_direction || 'right';
 
-  this.text.attr({
-    x: this.textMargin * 2
-  });
-
-  var width = this.text.getBBox().width + 3 * this.textMargin;
-  width += width/2;
-  var height = this.text.getBBox().height + 2 * this.textMargin;
-  height += height/2;
-  height = Math.max(width * 0.5, height);
-  var startX = width/4;
-  var startY = height/4;
+  var width = 200;
+  var height = 100;
+  var startX = 0;
+  var startY = 0;
 
   this.text.attr({
-    x: startX + this.textMargin/2
+    x: 100,
+    y: 50,
+    'text-anchor':'middle',
+    'dominant-baseline': 'middle'
   });
 
   var start = {x: startX, y: startY};
+ 
   var points = [
-    {x: startX - width/4, y: startY + height/4},
-    {x: startX - width/4 + width/2, y: startY + height/4 + height/2},
-    {x: startX - width/4 + width, y: startY + height/4},
-    {x: startX - width/4 + width/2, y: startY + height/4 - height/2},
-    {x: startX - width/4, y: startY + height/4}
+    {x: startX, y: startY},
+    {x: startX + width, y: startY},
+    {x: startX + width, y: startY + height},
+    {x: startX, y: startY + height},
+    {x: startX, y: startY}
   ];
 
   var symbol = drawPath(chart, start, points);
@@ -55,10 +52,6 @@ function Condition(chart, options) {
   if (options.target) { symbol.attr('target', options.target); }
   if (options.key) { symbol.node.id = options.key; }
   symbol.node.setAttribute('class', this.getAttr('class'));
-
-  this.text.attr({
-    y: symbol.getBBox().height/2
-  });
 
   this.group.push(symbol);
   symbol.insertBefore(this.text);
