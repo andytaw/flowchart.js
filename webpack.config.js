@@ -9,7 +9,7 @@ var banner =
 	'// Distributed under MIT license\n' +
 	'// http://adrai.github.io/flowchart.js\n';
 
-var NODE_ENV = process.env.NODE_ENV || 'development';
+var NODE_ENV = (process.env.NODE_ENV || 'development').trim();
 var defines = new webpack.DefinePlugin({
 	'process.env': {
 		'NODE_ENV': JSON.stringify(NODE_ENV)
@@ -44,11 +44,16 @@ var config = {
 	}
 };
 
+console.log('********* NODE_ENV: <' + NODE_ENV + '>');
+console.log('********* MINIFIED: ' + process.env.MINIFIED);
+
 if (NODE_ENV === 'production') {
-	var minified = process.env.MINIFIED == '1';
+	console.log('********* production build *********');
+	var minified = (process.env.MINIFIED || '').trim() == '1';
 	var withoutJs = component.name;
 	withoutJs = withoutJs.replace('.js', '');
 	var filename = minified ? withoutJs + '.min.js' : withoutJs + '.js';
+	console.log('********* filename: ' + filename);
 	var uglifyOptions = {
 		sourceMap: true,
 		compressor: {
@@ -81,6 +86,9 @@ if (NODE_ENV === 'production') {
 		defines,
 		new webpack.optimize.UglifyJsPlugin(uglifyOptions)
 	];
+}
+else{
+	console.log('********* non-production build *********');
 }
 
 module.exports = config;

@@ -1,5 +1,5 @@
-// flowchart.js, v1.14.1
-// Copyright (c)2020 Adriano Raiano (adrai).
+// flowchart.js, v1.15.0
+// Copyright (c)2021 Adriano Raiano (adrai).
 // Distributed under MIT license
 // http://adrai.github.io/flowchart.js
 
@@ -131,7 +131,8 @@
             this.chart = chart, this.group = this.chart.paper.set(), this.symbol = symbol, this.connectedTo = [], 
             this.symbolType = options.symbolType, this.flowstate = options.flowstate || "future", 
             this.lineStyle = options.lineStyle || {}, this.key = options.key || "", this.leftLines = [], 
-            this.rightLines = [], this.topLines = [], this.bottomLines = [], this.next_direction = options.next && options.direction_next ? options.direction_next : void 0, 
+            this.rightLines = [], this.topLines = [], this.bottomLines = [], this.params = options.params, 
+            this.next_direction = options.next && options.direction_next ? options.direction_next : void 0, 
             this.text = this.chart.paper.text(0, 0, options.text), //Raphael does not support the svg group tag so setting the text node id to the symbol node id plus t
             options.key && (this.text.node.id = options.key + "t"), this.text.node.setAttribute("class", this.getAttr("class") + "t"), 
             this.text.attr({
@@ -787,37 +788,33 @@
             options = options || {}, Symbol.call(this, chart, options), this.yes_annotation = options.yes_annotation, 
             this.no_annotation = options.no_annotation, this.textMargin = this.getAttr("text-margin"), 
             this.yes_direction = options.direction_yes, this.no_direction = options.direction_no, 
-            this.params = options.params, this.no_direction || "right" !== this.yes_direction ? this.yes_direction || "bottom" !== this.no_direction || (this.yes_direction = "right") : this.no_direction = "bottom", 
-            this.yes_direction = this.yes_direction || "bottom", this.no_direction = this.no_direction || "right", 
+            this.no_direction || "right" !== this.yes_direction ? this.yes_direction || "bottom" !== this.no_direction || (this.yes_direction = "right") : this.no_direction = "bottom", 
+            this.yes_direction = this.yes_direction || "bottom", this.no_direction = this.no_direction || "right";
+            var width = 200, height = 100, startX = 0, startY = 0;
             this.text.attr({
-                x: 2 * this.textMargin
-            });
-            var width = this.text.getBBox().width + 3 * this.textMargin;
-            width += width / 2;
-            var height = this.text.getBBox().height + 2 * this.textMargin;
-            height += height / 2, height = Math.max(.5 * width, height);
-            var startX = width / 4, startY = height / 4;
-            this.text.attr({
-                x: startX + this.textMargin / 2
+                x: 100,
+                y: 50,
+                "text-anchor": "middle",
+                "dominant-baseline": "middle"
             });
             var start = {
                 x: startX,
                 y: startY
             }, points = [ {
-                x: startX - width / 4,
-                y: startY + height / 4
+                x: startX,
+                y: startY
             }, {
-                x: startX - width / 4 + width / 2,
-                y: startY + height / 4 + height / 2
+                x: startX + width,
+                y: startY
             }, {
-                x: startX - width / 4 + width,
-                y: startY + height / 4
+                x: startX + width,
+                y: startY + height
             }, {
-                x: startX - width / 4 + width / 2,
-                y: startY + height / 4 - height / 2
+                x: startX,
+                y: startY + height
             }, {
-                x: startX - width / 4,
-                y: startY + height / 4
+                x: startX,
+                y: startY
             } ], symbol = drawPath(chart, start, points);
             symbol.attr({
                 stroke: this.getAttr("element-color"),
@@ -825,9 +822,7 @@
                 fill: this.getAttr("fill")
             }), options.link && symbol.attr("href", options.link), options.target && symbol.attr("target", options.target), 
             options.key && (symbol.node.id = options.key), symbol.node.setAttribute("class", this.getAttr("class")), 
-            this.text.attr({
-                y: symbol.getBBox().height / 2
-            }), this.group.push(symbol), symbol.insertBefore(this.text), this.initialize();
+            this.group.push(symbol), symbol.insertBefore(this.text), this.symbol = symbol, this.initialize();
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits, drawAPI = __webpack_require__(/*! ./flowchart.functions */ 3), drawPath = drawAPI.drawPath;
         inherits(Condition, Symbol), Condition.prototype.render = function() {
@@ -1161,7 +1156,8 @@
             options.key && (symbol.node.id = options.key), symbol.node.setAttribute("class", this.getAttr("class")), 
             this.text.attr({
                 y: symbol.getBBox().height / 2
-            }), this.group.push(symbol), symbol.insertBefore(this.text), this.initialize();
+            }), this.group.push(symbol), symbol.insertBefore(this.text), this.symbol = symbol, 
+            this.initialize();
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits, drawAPI = __webpack_require__(/*! ./flowchart.functions */ 3), drawPath = drawAPI.drawPath;
         inherits(InputOutput, Symbol), InputOutput.prototype.getLeft = function() {
