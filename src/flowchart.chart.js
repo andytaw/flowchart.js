@@ -117,7 +117,7 @@ FlowChart.prototype.render = function() {
     if (bottom.y > chartY) chartY = bottom.y;
   }
 
-  var endY = chartY + this.options['line-length'];
+  var endY = chartY + this.options['line-length'] + 50;
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];

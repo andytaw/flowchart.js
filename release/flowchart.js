@@ -1019,7 +1019,7 @@
                 var symbol = this.symbols[i], bottom = symbol.getBottom();
                 bottom.y > chartY && (chartY = bottom.y);
             }
-            var endY = chartY + this.options["line-length"];
+            var endY = chartY + this.options["line-length"] + 50;
             for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], "end" === symbol.symbolType && symbol.setY(endY);
             for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], symbol.renderLines();
             maxX = this.maxXFromLine;
