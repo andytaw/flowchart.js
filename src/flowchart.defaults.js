@@ -25,7 +25,8 @@ module.exports = {
     'inputoutput': {},
     'operation': {},
     'subroutine': {},
-    'parallel': {}
+    'parallel': {},
+    'align-ends': false
   } //,
   // 'flowstate' : {
   //   'past' : { 'fill': '#CCCCCC', 'font-size': 12},

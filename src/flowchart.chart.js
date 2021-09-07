@@ -110,19 +110,23 @@ FlowChart.prototype.render = function() {
   //  symbol.render();
   //}
 
-  var chartY = 0;
-  for (i = 0, len = this.symbols.length; i < len; i++) {
-    var symbol = this.symbols[i];
-    var bottom = symbol.getBottom();
-    if (bottom.y > chartY) chartY = bottom.y;
-  }
+  if (this.options['align-ends']){
 
-  var endY = chartY + this.options['line-length'] + 50;
-
-  for (i = 0, len = this.symbols.length; i < len; i++) {
-    symbol = this.symbols[i];
-    if (symbol.symbolType === 'end') symbol.setY(endY);
-  }
+    var chartY = 0;
+    for (i = 0, len = this.symbols.length; i < len; i++) {
+      var symbol = this.symbols[i];
+      var bottom = symbol.getBottom();
+      if (bottom.y > chartY) chartY = bottom.y;
+    }
+  
+    var endY = chartY + this.options['line-length'] + 50;
+  
+    for (i = 0, len = this.symbols.length; i < len; i++) {
+      symbol = this.symbols[i];
+      if (symbol.symbolType === 'end') symbol.setY(endY);
+    }
+    
+ }
 
 
   for (i = 0, len = this.symbols.length; i < len; i++) {

@@ -1009,18 +1009,19 @@
             symbol.height > maxHeight && (maxHeight = symbol.height);
             for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options["line-width"]), 
             symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options["line-width"]);
-            this.start.render();
             //for (i = 0, len = this.symbols.length; i < len; i++) {
             //  symbol = this.symbols[i];
             //  symbol.render();
             //}
-            var chartY = 0;
-            for (i = 0, len = this.symbols.length; i < len; i++) {
-                var symbol = this.symbols[i], bottom = symbol.getBottom();
-                bottom.y > chartY && (chartY = bottom.y);
+            if (this.start.render(), this.options["align-ends"]) {
+                var chartY = 0;
+                for (i = 0, len = this.symbols.length; i < len; i++) {
+                    var symbol = this.symbols[i], bottom = symbol.getBottom();
+                    bottom.y > chartY && (chartY = bottom.y);
+                }
+                var endY = chartY + this.options["line-length"] + 50;
+                for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], "end" === symbol.symbolType && symbol.setY(endY);
             }
-            var endY = chartY + this.options["line-length"] + 50;
-            for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], "end" === symbol.symbolType && symbol.setY(endY);
             for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], symbol.renderLines();
             maxX = this.maxXFromLine;
             var x, y;
@@ -1079,7 +1080,8 @@
                 inputoutput: {},
                 operation: {},
                 subroutine: {},
-                parallel: {}
+                parallel: {},
+                "align-ends": !1
             }
         };
     }, /* 9 */
