@@ -105,10 +105,25 @@ FlowChart.prototype.render = function() {
   }
 
   this.start.render();
-  // for (i = 0, len = this.symbols.length; i < len; i++) {
-  //   symbol = this.symbols[i];
-  //   symbol.render();
-  // }
+  //for (i = 0, len = this.symbols.length; i < len; i++) {
+  //  symbol = this.symbols[i];
+  //  symbol.render();
+  //}
+
+  var chartY = 0;
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+    var symbol = this.symbols[i];
+    var bottom = symbol.getBottom();
+    if (bottom.y > chartY) chartY = bottom.y;
+  }
+
+  var endY = chartY + this.options['line-length'];
+
+  for (i = 0, len = this.symbols.length; i < len; i++) {
+    symbol = this.symbols[i];
+    if (symbol.symbolType === 'end') symbol.setY(endY);
+  }
+
 
   for (i = 0, len = this.symbols.length; i < len; i++) {
     symbol = this.symbols[i];

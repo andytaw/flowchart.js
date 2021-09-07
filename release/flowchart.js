@@ -1009,12 +1009,19 @@
             symbol.height > maxHeight && (maxHeight = symbol.height);
             for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], symbol.shiftX(this.options.x + (maxWidth - symbol.width) / 2 + this.options["line-width"]), 
             symbol.shiftY(this.options.y + (maxHeight - symbol.height) / 2 + this.options["line-width"]);
-            // for (i = 0, len = this.symbols.length; i < len; i++) {
-            //   symbol = this.symbols[i];
-            //   symbol.render();
-            // }
-            for (this.start.render(), i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], 
-            symbol.renderLines();
+            this.start.render();
+            //for (i = 0, len = this.symbols.length; i < len; i++) {
+            //  symbol = this.symbols[i];
+            //  symbol.render();
+            //}
+            var chartY = 0;
+            for (i = 0, len = this.symbols.length; i < len; i++) {
+                var symbol = this.symbols[i], bottom = symbol.getBottom();
+                bottom.y > chartY && (chartY = bottom.y);
+            }
+            var endY = chartY + this.options["line-length"];
+            for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], "end" === symbol.symbolType && symbol.setY(endY);
+            for (i = 0, len = this.symbols.length; i < len; i++) symbol = this.symbols[i], symbol.renderLines();
             maxX = this.maxXFromLine;
             var x, y;
             for (i = 0, len = this.symbols.length; i < len; i++) {
@@ -1113,7 +1120,7 @@
     /***/
     function(module, exports, __webpack_require__) {
         function End(chart, options) {
-            var symbol = chart.paper.rect(0, 0, 0, 0, 20);
+            var symbol = chart.paper.rect(0, 0, 0, 0, 10);
             options = options || {}, options.text = options.text || "End", Symbol.call(this, chart, options, symbol);
         }
         var Symbol = __webpack_require__(/*! ./flowchart.symbol */ 2), inherits = __webpack_require__(/*! ./flowchart.helpers */ 1).inherits;
