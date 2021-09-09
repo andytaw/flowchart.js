@@ -790,10 +790,10 @@
             this.yes_direction = options.direction_yes, this.no_direction = options.direction_no, 
             this.no_direction || "right" !== this.yes_direction ? this.yes_direction || "bottom" !== this.no_direction || (this.yes_direction = "right") : this.no_direction = "bottom", 
             this.yes_direction = this.yes_direction || "bottom", this.no_direction = this.no_direction || "right";
-            var width = 200, height = 100, startX = 0, startY = 0;
+            var width = 100, height = 60, startX = 0, startY = 0;
             this.text.attr({
-                x: 100,
-                y: 50,
+                x: width / 2,
+                y: height / 2,
                 "text-anchor": "middle",
                 "dominant-baseline": "middle"
             });

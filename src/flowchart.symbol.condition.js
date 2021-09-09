@@ -19,14 +19,14 @@ function Condition(chart, options) {
   this.yes_direction = this.yes_direction || 'bottom';
   this.no_direction = this.no_direction || 'right';
 
-  var width = 200;
-  var height = 100;
+  var width = 100;
+  var height = 60;
   var startX = 0;
   var startY = 0;
 
   this.text.attr({
-    x: 100,
-    y: 50,
+    x: width / 2,
+    y: height / 2,
     'text-anchor':'middle',
     'dominant-baseline': 'middle'
   });
